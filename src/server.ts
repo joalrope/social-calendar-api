@@ -1,10 +1,11 @@
 import express from "express";
 import cors from "cors";
+import { authRouter } from "./routes/auth";
+import { dbConnection } from "./database/config";
 import swaggerUI from "swagger-ui-express";
-import fileUpload from "express-fileupload";
 import { swaggerStart } from "./docs/swagger-start";
 import { options } from "./docs/index";
-import { dbConnection } from "./database/config";
+import fileUpload from "express-fileupload";
 
 console.log(options);
 
@@ -78,7 +79,7 @@ export class Server {
     this.app.use(this.paths.uploads, require("./routes/uploads"));
     this.app.use(this.paths.search, require("./routes/search"));
     this.app.use(this.paths.users, require("./routes/users"));
-    this.app.use(this.paths.auth, require("./routes/auth"));
+    this.app.use(this.paths.auth, authRouter);
   }
 
   listen() {

@@ -1,14 +1,14 @@
-//const Role = require('../models/role');
-const { User, Category, Product, Role } = require('../models');
+import { Schema } from 'mongoose';
+import { User, Category, Product, Role } from '../models';
 
-const roleIsValid = async (role = 'USER_ROLE') => {
+export const roleIsValid = async (role: string = 'USER_ROLE') => {
 	const roleDB = await Role.findOne({ role });
 	if (!roleDB) {
 		throw new Error(`El rol ${role} no está registrado en la BD`);
 	}
 };
 
-const emailAlreadyExists = async (email = '') => {
+export const emailAlreadyExists = async (email: string = '') => {
 	// Verificar si el correo existe
 	const emailDB = await User.findOne({ email });
 	if (emailDB) {
@@ -16,7 +16,7 @@ const emailAlreadyExists = async (email = '') => {
 	}
 };
 
-const userIdAlreadyExists = async (id) => {
+export const userIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
 	// Verificar si el correo existe
 	const userDB = await User.findById(id);
 	if (!userDB) {
@@ -27,7 +27,7 @@ const userIdAlreadyExists = async (id) => {
 /**
  * Categorias
  */
-const categoryIdAlreadyExists = async (id) => {
+export const categoryIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
 	// Verificar si el correo existe
 	const categoryDB = await Category.findById(id);
 	if (!categoryDB) {
@@ -38,7 +38,7 @@ const categoryIdAlreadyExists = async (id) => {
 /**
  * Productos
  */
-const productIdAlreadyExists = async (id) => {
+export const productIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
 	// Verificar si el correo existe
 	const productDB = await Product.findById(id);
 	if (!productDB) {
@@ -49,19 +49,10 @@ const productIdAlreadyExists = async (id) => {
 /**
  * Validar colecciones permitidas
  */
-const collectionsAllowed = (collection = '', collections = []) => {
+export const collectionsAllowed = (collection: string = '', collections: string[] = []) => {
 	const included = collections.includes(collection);
 	if (!included) {
 		throw new Error(`La colección ${collection} no es permitida, ${collections}`);
 	}
 	return true;
-};
-
-module.exports = {
-	roleIsValid,
-	emailAlreadyExists,
-	userIdAlreadyExists,
-	categoryIdAlreadyExists,
-	productIdAlreadyExists,
-	collectionsAllowed,
 };

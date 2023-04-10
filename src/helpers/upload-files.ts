@@ -1,7 +1,7 @@
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+import { Schema } from 'mongoose';
+import path from 'path';
 
-const uploadFiles = (files, validExtensions = ['png', 'jpg', 'jpeg', 'gif'], folder = '') => {
+export const uploadFiles = (files: any, validExtensions = ['png', 'jpg', 'jpeg', 'gif'], folder = '') => {
 	return new Promise((resolve, reject) => {
 		const { file } = files;
 		const splitedName = file.name.split('.');
@@ -12,10 +12,10 @@ const uploadFiles = (files, validExtensions = ['png', 'jpg', 'jpeg', 'gif'], fol
 			return reject(`La extensión ${extension} no es permitida - ${validExtensions}`);
 		}
 
-		const tempName = uuidv4() + '.' + extension;
+		const tempName = Schema.Types.ObjectId.toString() + '.' + extension;
 		const uploadPath = path.join(__dirname, '../../uploads/', folder, tempName);
 
-		file.mv(uploadPath, (err) => {
+		file.mv(uploadPath, (err: any) => {
 			if (err) {
 				reject(err);
 			}
@@ -25,6 +25,3 @@ const uploadFiles = (files, validExtensions = ['png', 'jpg', 'jpeg', 'gif'], fol
 	});
 };
 
-module.exports = {
-	uploadFiles,
-};

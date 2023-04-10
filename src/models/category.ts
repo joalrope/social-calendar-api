@@ -1,7 +1,14 @@
-const { Schema, model } = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const CategorySchema = Schema({
-	category: {
+interface ICategory {
+	uid: Schema.Types.ObjectId;
+	name: string;
+	isActive: boolean;
+	user: Schema.Types.ObjectId
+}
+
+const CategorySchema = new Schema<ICategory>({
+	name: {
 		type: String,
 		required: [true, 'El nombre es obligatorio'],
 		unique: true,
@@ -23,4 +30,4 @@ CategorySchema.methods.toJSON = function () {
 	return data;
 };
 
-module.exports = model('Category', CategorySchema);
+export const Category = model('Category', CategorySchema);

@@ -1,13 +1,13 @@
-const { response } = require('express');
+import { Request, Response, NextFunction  } from 'express';
 
-const isAdminRole = (req, res = response, next) => {
-	if (!req.user) {
+export const isAdminRole = (req: Request, res: Response, next: NextFunction) => {
+	if (!req.body.user) {
 		return res.status(500).json({
 			msg: 'Se quiere verificar el role sin validar el token primero',
 		});
 	}
 
-	const { rol, name } = req.user;
+	const { rol, name } = req.body.user;
 
 	if (rol !== 'ADMIN_ROLE') {
 		return res.status(401).json({
@@ -16,27 +16,24 @@ const isAdminRole = (req, res = response, next) => {
 	}
 
 	next();
+	return;
 };
 
-const hasRole = (...roles) => {
-	return (req, res = response, next) => {
-		if (!req.user) {
+export const hasRole = (...roles: string[]) => {
+	return (req: Request, res: Response, next: NextFunction) => {
+		if (!req.body.user) {
 			return res.status(500).json({
 				msg: 'Se quiere verificar el role sin validar el token primero',
 			});
 		}
 
-		if (!roles.includes(req.user.rol)) {
+		if (!roles.includes(req.body.user.rol)) {
 			return res.status(401).json({
 				msg: `El servicio requiere uno de estos roles ${roles}`,
 			});
 		}
 
 		next();
+		return;
 	};
-};
-
-module.exports = {
-	isAdminRole,
-	hasRole,
 };
