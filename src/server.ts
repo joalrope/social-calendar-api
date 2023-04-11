@@ -1,13 +1,16 @@
 import express from "express";
 import cors from "cors";
-import { authRouter } from "./routes/auth";
+import { categoryRouter } from "./routes";
+import { productRouter } from "./routes";
+import { uploadRouter } from "./routes";
+import { searchRouter } from "./routes";
+import { userRouter } from "./routes";
+import { authRouter } from "./routes";
 import { dbConnection } from "./database/config";
 import swaggerUI from "swagger-ui-express";
 import { swaggerStart } from "./docs/swagger-start";
 import { options } from "./docs/index";
 import fileUpload from "express-fileupload";
-
-console.log(options);
 
 interface IPaths {
   categories: string;
@@ -74,11 +77,11 @@ export class Server {
   }
 
   routes() {
-    this.app.use(this.paths.categories, require("./routes/categories"));
-    this.app.use(this.paths.products, require("./routes/products"));
-    this.app.use(this.paths.uploads, require("./routes/uploads"));
-    this.app.use(this.paths.search, require("./routes/search"));
-    this.app.use(this.paths.users, require("./routes/users"));
+    this.app.use(this.paths.categories, categoryRouter);
+    this.app.use(this.paths.products, productRouter);
+    this.app.use(this.paths.uploads, uploadRouter);
+    this.app.use(this.paths.search, searchRouter);
+    this.app.use(this.paths.users, userRouter);
     this.app.use(this.paths.auth, authRouter);
   }
 
