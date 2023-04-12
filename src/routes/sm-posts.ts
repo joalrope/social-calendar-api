@@ -4,35 +4,35 @@ import { check } from "express-validator";
 import { validateJWT, validateFields, isAdminRole } from "../middlewares";
 import { categoryIdAlreadyExists, productIdAlreadyExists } from "../helpers";
 import {
-  createProduct,
-  getProducts,
-  getProduct,
-  updateProduct,
-  deleteProduct,
+  createSMPost,
+  getSMPosts,
+  getSMPost,
+  updateSMPost,
+  deleteSMPost,
 } from "../controllers";
 
-export const productRouter = Router();
+export const smPostRouter = Router();
 
 /**
  * {{url}}/api/categorias
  */
 
 //  Obtener todas las categorias - publico
-productRouter.get("/", getProducts);
+smPostRouter.get("/", getSMPosts);
 
 // Obtener una categoria por id - publico
-productRouter.get(
+smPostRouter.get(
   "/:id",
   [
     check("id", "No es un id de Mongo válido").isMongoId(),
     check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
-  getProduct
+  getSMPost
 );
 
 // Crear categoria - privado - cualquier persona con un token válido
-productRouter.post(
+smPostRouter.post(
   "/",
   [
     validateJWT,
@@ -41,11 +41,11 @@ productRouter.post(
     check("categoria").custom(categoryIdAlreadyExists),
     validateFields,
   ],
-  createProduct
+  createSMPost
 );
 
 // Actualizar - privado - cualquiera con token válido
-productRouter.put(
+smPostRouter.put(
   "/:id",
   [
     validateJWT,
@@ -53,11 +53,11 @@ productRouter.put(
     check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
-  updateProduct
+  updateSMPost
 );
 
 // Borrar una categoria - Admin
-productRouter.delete(
+smPostRouter.delete(
   "/:id",
   [
     validateJWT,
@@ -66,5 +66,5 @@ productRouter.delete(
     check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
-  deleteProduct
+  deleteSMPost
 );

@@ -44,7 +44,7 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { _id, password, google, email, ...restData } = req.body;
+  const { _id, password, email, ...restData } = req.body;
 
   if (password) {
     // Encriptar la contraseña

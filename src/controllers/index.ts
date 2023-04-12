@@ -1,12 +1,12 @@
 import { login, validateUserToken } from "./auth";
 import { getUsers, createUser, updateUser, deleteUser } from "./users";
 import {
-  getProducts,
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-} from "./products";
+  getSMPosts,
+  getSMPost,
+  createSMPost,
+  updateSMPost,
+  deleteSMPost,
+} from "./sm-posts";
 import {
   getCategories,
   getCategory,
@@ -29,11 +29,11 @@ export {
   createUser,
   updateUser,
   deleteUser,
-  getProducts,
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  getSMPosts,
+  getSMPost,
+  createSMPost,
+  updateSMPost,
+  deleteSMPost,
   getCategories,
   getCategory,
   createCategory,

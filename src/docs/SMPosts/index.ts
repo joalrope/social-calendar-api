@@ -1,4 +1,4 @@
-import { getPosts } from "./get-posts";
+import { getPosts } from "./get-sm-posts";
 
 export const paths = {
   paths: {

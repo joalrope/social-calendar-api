@@ -32,7 +32,7 @@ export const components = {
             description: "Array with the url's visual resources",
             example: `["https://cloudinary.com/user/kkj;5467ggf4", "https://youtube.com/user/yygvtr565"]`,
           },
-          date: {
+          postdate: {
             type: "date",
             description: "Date and time of post on the social network",
             example: "2021-02-25T10:03:46.000Z", // example of a completed value
@@ -42,6 +42,11 @@ export const components = {
             description:
               "Status of post. If the message already is Published is true",
             example: "true", // example of a completed value
+          },
+          user: {
+            type: "string",
+            description: "Owner of the post",
+            example: "Bohiques.com",
           },
         },
       },

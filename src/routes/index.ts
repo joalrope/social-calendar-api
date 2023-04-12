@@ -3,7 +3,7 @@ import { userRouter } from "./users";
 import { uploadRouter } from "./uploads";
 import { searchRouter } from "./search";
 import { categoryRouter } from "./categories";
-import { productRouter } from "./products";
+import { smPostRouter } from "./sm-posts";
 
 export {
   authRouter,
@@ -11,5 +11,5 @@ export {
   uploadRouter,
   searchRouter,
   categoryRouter,
-  productRouter,
+  smPostRouter as productRouter,
 };

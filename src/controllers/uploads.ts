@@ -3,7 +3,7 @@ import { v2 } from "cloudinary";
 import path from "path";
 import fs from "fs";
 import { uploadFiles } from "../helpers";
-import { User, Product } from "../models";
+import { User, SMPost } from "../models";
 
 const cloudinary = v2;
 cloudinary.config(String(process.env.CLOUDINARY_URL));
@@ -35,8 +35,8 @@ export const updateImage = async (req: Request, res: Response) => {
 
       break;
 
-    case "products":
-      model = await Product.findById(id);
+    case "sm-posts":
+      model = await SMPost.findById(id);
       if (!model) {
         return res.status(400).json({
           msg: `No existe un producto con el id ${id}`,
@@ -82,8 +82,8 @@ export const updateImageCloudinary = async (req: Request, res: Response) => {
 
       break;
 
-    case "products":
-      model = await Product.findById(id);
+    case "sm-posts":
+      model = await SMPost.findById(id);
       if (!model) {
         return res.status(400).json({
           msg: `No existe un producto con el id ${id}`,
@@ -130,7 +130,7 @@ export const showImage = async (req: Request, res: Response) => {
       break;
 
     case "products":
-      model = await Product.findById(id);
+      model = await SMPost.findById(id);
       if (!model) {
         return res.status(400).json({
           msg: `No existe un producto con el id ${id}`,

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { Product } from "../models";
+import { SMPost } from "../models";
 
-export const getProducts = async (req: Request, res: Response) => {
+export const getSMPosts = async (req: Request, res: Response) => {
   const { limite = 5, desde = 0 } = req.query;
   const query = { estado: true };
 
-  const [total, products] = await Promise.all([
-    Product.countDocuments(query),
-    Product.find(query)
+  const [total, smPosts] = await Promise.all([
+    SMPost.countDocuments(query),
+    SMPost.find(query)
       .populate("user", "name")
       .populate("category", "name")
       .skip(Number(desde))
@@ -16,23 +16,23 @@ export const getProducts = async (req: Request, res: Response) => {
 
   res.json({
     total,
-    products,
+    products: smPosts,
   });
 };
 
-export const getProduct = async (req: Request, res: Response) => {
+export const getSMPost = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const product = await Product.findById(id)
+  const product = await SMPost.findById(id)
     .populate("user", "name")
     .populate("category", "name");
 
   res.json(product);
 };
 
-export const createProduct = async (req: Request, res: Response) => {
+export const createSMPost = async (req: Request, res: Response) => {
   const { isActive, user, ...body } = req.body;
 
-  const productDB = await Product.findOne({ name: body.name.toUpperCase() });
+  const productDB = await SMPost.findOne({ name: body.name.toUpperCase() });
 
   if (productDB) {
     return res.status(400).json({
@@ -47,7 +47,7 @@ export const createProduct = async (req: Request, res: Response) => {
     user: req.body.user._id,
   };
 
-  const product = new Product(data);
+  const product = new SMPost(data);
 
   // Guardar DB
   const newProduct = await product.save();
@@ -59,7 +59,7 @@ export const createProduct = async (req: Request, res: Response) => {
   return res.status(201).json(newProduct);
 };
 
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateSMPost = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { isActive, user, ...data } = req.body;
 
@@ -69,7 +69,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
   data.user = req.body.user._id;
 
-  const product = await Product.findByIdAndUpdate(id, data, { new: true });
+  const product = await SMPost.findByIdAndUpdate(id, data, { new: true });
 
   await product
     .populate("user", "name")
@@ -79,9 +79,9 @@ export const updateProduct = async (req: Request, res: Response) => {
   res.json(product);
 };
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteSMPost = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const deletedProduct = await Product.findByIdAndUpdate(
+  const deletedProduct = await SMPost.findByIdAndUpdate(
     id,
     { isActive: false },
     { new: true }
