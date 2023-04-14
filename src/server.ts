@@ -85,11 +85,10 @@ export class Server {
     this.app.use(this.paths.auth, authRouter);
   }
 
-  listen() {
-    this.app.listen(this.port, () => {
+   listen() {
+    this.app.listen(this.port, async () => {
       console.log("Servidor corriendo en puerto", this.port);
-      swaggerStart();
-      //require('child_process').exec(`start http://localhost:${this.port}/api-doc`);
+      await swaggerStart();
     });
   }
 }
