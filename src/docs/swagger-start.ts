@@ -1,57 +1,74 @@
-import { platform } from "os";
-import { exec } from "child_process";
+//import puppeteer from "puppeteer-core";
+import { spawn } from "child_process";
 
-const getChromeTabs = require('get-chrome-tabs');
-const osPlatform = platform();
+// npm i chrome-launcher
+// yarn add chrome-launcher
 
-interface ITab {
-    windowIndex: number; 
-    windowVisible: boolean;
-    url: string;
-    title: string;
-    active: boolean;
-    loading: boolean;
-}
+//import { platform } from "os";
+// const getChromeTabs = require('get-chrome-tabs');
+//const osPlatform = platform();
 
-const getTabs = async ()=> {
-  try {
-    return await getChromeTabs()
-  } catch (error) {
+// interface ITab {
+//     windowIndex: number;
+//     windowVisible: boolean;
+//     url: string;
+//     title: string;
+//     active: boolean;
+//     loading: boolean;
+// }
 
-    return null;
-    
-  }
-}
+// const getTabs = async ()=> {
+//   try {
+//     return await getChromeTabs()
+//   } catch (error) {
+
+//     return null;
+
+//   }
+// }
 
 export const swaggerStart = async () => {
-  const url = `http://localhost:${process.env.PORT}/api-doc/`;
+  const serverAddr = `http://localhost:${process.env.PORT}`;
+  const url = `${serverAddr}/api-doc/`;
+  const chrome = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
-  let command: string;
+  try {
+    // let command: string;
 
-  if (osPlatform === "win32") {
-    command = `start "Google Chrome" ${url}`;
-  } else if (osPlatform === "darwin") {
-    command = `open -a "Google Chrome" ${url}`;
-  } else {
-    command = `google-chrome --no-sandbox ${url}`;
-  }
+    // if (osPlatform === "win32") {
+    //   command = `start "Google Chrome" ${url} --remote-debugging-port=9222`;
+    // } else if (osPlatform === "darwin") {
+    //   command = `open -a "Google Chrome" ${url}`;
+    // } else {
+    //   command = `google-chrome --no-sandbox ${url}`;
+    // }
 
-  const tabs: ITab[] = await getTabs()
+    spawn(chrome, ["--remote-debugging-port=9222", url]);
 
-  if (tabs) {
-    let isClose = true;
+    //const ws = String());
 
-    tabs.map((tab: ITab) => {
-      if(tab.url == url) {
-        console.log("Refreshing browser")
-        isClose = false
-      } 
-    })
+    // const browser = await puppeteer.connect({
+    //   browserWSEndpoint: Object(
+    //     await fetch("http://127.0.0.1:9222/json/version")
+    //   ).webSocketDebuggerUrl, // ws
+    //   ignoreHTTPSErrors: false,
+    //   defaultViewport: null,
+    // });
 
-    if (isClose) {
-      exec(command);
-    }
-  } else {
-    exec(command);
+    // const newPage = await browser.newPage();
+
+    // await newPage.goto(url);
+
+    // const pages = await browser.pages();
+
+    // pages.map((page) => {
+    //   console.log(page.url());
+    // });
+
+    // const ws = await fetch("http://127.0.0.1:9222/json/version");
+
+    // console.log(ws);
+  } catch (error) {
+    console.log(error);
   }
 };
