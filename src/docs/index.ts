@@ -3,7 +3,7 @@ import { servers } from "./servers";
 import { apis } from "./apis";
 import { tags } from "./tags";
 import { components } from "./components";
-import { paths } from "./SMPosts";
+import { paths } from "./Paths";
 //const todos = require('./todos');
 
 export const options = {

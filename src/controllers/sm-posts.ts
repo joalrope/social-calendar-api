@@ -16,7 +16,7 @@ export const getSMPosts = async (req: Request, res: Response) => {
 
   res.json({
     total,
-    products: smPosts,
+    smPosts,
   });
 };
 
@@ -31,6 +31,8 @@ export const getSMPost = async (req: Request, res: Response) => {
 
 export const createSMPost = async (req: Request, res: Response) => {
   const { isActive, user, ...body } = req.body;
+
+  console.log(req.body);
 
   const productDB = await SMPost.findOne({ name: body.name.toUpperCase() });
 

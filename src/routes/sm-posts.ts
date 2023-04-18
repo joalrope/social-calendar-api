@@ -2,7 +2,9 @@ import { Router } from "express";
 import { check } from "express-validator";
 
 import { validateJWT, validateFields, isAdminRole } from "../middlewares";
-import { categoryIdAlreadyExists, productIdAlreadyExists } from "../helpers";
+import {
+  /* categoryIdAlreadyExists, */ productIdAlreadyExists,
+} from "../helpers";
 import {
   createSMPost,
   getSMPosts,
@@ -14,7 +16,7 @@ import {
 export const smPostRouter = Router();
 
 /**
- * {{url}}/api/categorias
+ * {{url}}/api/sm-posts
  */
 
 //  Obtener todas las categorias - publico
@@ -31,14 +33,20 @@ smPostRouter.get(
   getSMPost
 );
 
-// Crear categoria - privado - cualquier persona con un token válido
+// Crear Social media post - privado - cualquier persona con un token válido
 smPostRouter.post(
   "/",
   [
     validateJWT,
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("categoria", "No es un id de Mongo").isMongoId(),
-    check("categoria").custom(categoryIdAlreadyExists),
+    check("socialMedia", "La red social es obligatoria").notEmpty(),
+    check("postDate", "La fecha de publicación es obligatoria").notEmpty(),
+    check("postDate", "Debe ser una fecha valida").isDate(),
+    check("postDate", "Debe ser una fecha valida").isAfter(),
+    check(
+      "message",
+      "El mensaje de la publicacion No puede estar vacio"
+    ).notEmpty(),
+    check("isPostMade", "No es un id de Mongo").isMongoId(),
     validateFields,
   ],
   createSMPost
