@@ -4,7 +4,7 @@ export const createSMPost = {
     parameters: [
       {
         in: "body",
-        name: "api/smposts",
+        name: "smposts",
         description: "Create a new social media post.",
         schema: {
           type: "object",

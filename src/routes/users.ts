@@ -9,7 +9,7 @@ import {
 } from "../middlewares";
 import {
   roleIsValid,
-  emailAlreadyExists,
+  /*  emailAlreadyExists, */
   userIdAlreadyExists,
 } from "../helpers";
 import { getUsers, updateUser, createUser, deleteUser } from "../controllers";
@@ -31,7 +31,7 @@ userRouter.put(
 
 userRouter.post(
   "/",
-  [
+  /* [
     check("name", "El nombre es obligatorio").not().isEmpty(),
     check("password", "El password debe de ser más de 6 letras").isLength({
       min: 6,
@@ -41,7 +41,7 @@ userRouter.post(
     //check('role', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     check("role").custom(roleIsValid),
     validateFields,
-  ],
+  ], */
   createUser
 );
 

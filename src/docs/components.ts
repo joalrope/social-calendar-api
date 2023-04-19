@@ -50,6 +50,14 @@ export const components = {
           },
         },
       },
+      // JWT Authorization
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
       // error model
       Error: {
         type: "object",
@@ -67,5 +75,10 @@ export const components = {
         },
       },
     },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
 };

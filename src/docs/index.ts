@@ -4,7 +4,6 @@ import { apis } from "./apis";
 import { tags } from "./tags";
 import { components } from "./components";
 import { paths } from "./Paths";
-//const todos = require('./todos');
 
 export const options = {
   ...definition,

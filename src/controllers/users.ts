@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcryptjs from "bcryptjs";
 
-import { User } from "../models";
+import { User } from "../models/index";
 import { generateJWT } from "../helpers";
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -20,26 +20,46 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-  const { name, email, password, role } = req.body;
-  const user = new User({ name, email, password, role });
+  const { name, email, password, picture, role } = req.body;
 
-  // Encriptar la contraseña
-  const salt = bcryptjs.genSaltSync();
-  user.password = bcryptjs.hashSync(password, salt);
+  try {
+    let userDB = await User.findOne({ email });
 
-  // Guardar en BD
-  await user.save();
+    if (userDB) {
+      return res.status(409).json({
+        ok: false,
+        msg: `Ya existe un usuario con el correo ${email}`,
+        result: {},
+      });
+    }
 
-  // Generar el JWT
-  const token = await generateJWT(user.id);
-  console.log("create user In");
+    const user = new User({ name, email, password, picture, role });
 
-  console.log({ user, token });
+    // Encriptar la contraseña
+    const salt = bcryptjs.genSaltSync();
+    user.password = bcryptjs.hashSync(password, salt);
 
-  res.status(200).json({
-    user,
-    token,
-  });
+    // Guardar en BD
+    await user.save();
+
+    // Generar el JWT
+    const token = await generateJWT(user.id);
+
+    return res.status(200).json({
+      ok: true,
+      msg: "User created successfully",
+      result: {
+        user,
+        token,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+      result: {},
+    });
+  }
 };
 
 export const updateUser = async (req: Request, res: Response) => {
@@ -61,5 +81,9 @@ export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { isActive: false });
 
-  res.json(user);
+  res.json({
+    ok: true,
+    msg: "User deleted successfully",
+    result: user,
+  });
 };
