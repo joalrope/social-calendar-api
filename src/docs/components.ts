@@ -12,9 +12,7 @@ export const components = {
         type: "object",
         properties: {
           id: {
-            type: "ObjectId of MongoDB",
-            description: "An id of a post",
-            example: "507f1f77bcf86cd799439011", // example of an id
+            $ref: "#/components/schemas/id",
           },
           socialMedia: {
             type: "string",
@@ -54,9 +52,7 @@ export const components = {
         type: "object",
         properties: {
           id: {
-            type: "ObjectId of MongoDB",
-            description: "An id of a post",
-            example: "507f1f77bcf86cd799439011", // example of an id
+            $ref: "#/components/schemas/id",
           },
           name: {
             type: "string",

@@ -1,10 +1,10 @@
-import { getSMPosts } from "./SMPosts/get-sm-posts";
-import { createSMPost } from "./SMPosts/create-sm-post";
+import { smPostCR } from "./SMPosts/sm-post-CR";
 import { createUser } from "./Users/create-user";
 import { deleteUser } from "./Users/delete-user";
 import { login } from "./Auth/login";
 import { getUsers } from "./Users/get-users";
 import { updateUser } from "./Users/update-user";
+import { smPostUD } from "./SMPosts/sm-post-UD";
 
 export const paths = {
   paths: {
@@ -20,8 +20,10 @@ export const paths = {
       ...deleteUser,
     },
     "/api/smposts": {
-      ...getSMPosts,
-      ...createSMPost,
+      ...smPostCR,
+    },
+    "/api/smposts/{id}": {
+      ...smPostUD,
     },
 
     // '/todos/{id}':{
