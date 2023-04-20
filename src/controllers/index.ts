@@ -1,4 +1,4 @@
-import { login, validateUserToken } from "./auth";
+import { login } from "./auth";
 import { getUsers, createUser, updateUser, deleteUser } from "./users";
 import {
   getSMPosts,
@@ -24,7 +24,6 @@ import {
 
 export {
   login,
-  validateUserToken,
   getUsers,
   createUser,
   updateUser,

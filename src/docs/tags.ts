@@ -4,10 +4,14 @@ export const tags = {
       name: "Social Calendar CRUD operations", // name of a tag
     },
     {
-      name: "SMPost",
+      name: "Auth",
     },
     {
       name: "Users",
     },
+    {
+      name: "SMPost",
+    },
+    ,
   ],
 };

@@ -1,7 +1,7 @@
-export const deleteUser = {
-  delete: {
+export const updateUser = {
+  put: {
     tags: ["Users"],
-    summary: "Soft delete a user.",
+    summary: "user data update",
     security: [
       {
         bearerAuth: [],

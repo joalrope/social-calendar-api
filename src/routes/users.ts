@@ -4,8 +4,8 @@ import { check } from "express-validator";
 import {
   validateFields,
   validateJWT,
-  isAdminRole,
-  hasRole,
+  //isAdminRole,
+  // hasRole,
 } from "../middlewares";
 import {
   roleIsValid,
@@ -15,19 +15,6 @@ import {
 import { getUsers, updateUser, createUser, deleteUser } from "../controllers";
 
 export const userRouter = Router();
-
-userRouter.get("/", getUsers);
-
-userRouter.put(
-  "/:id",
-  [
-    check("id", "No es un ID válido").isMongoId(),
-    check("id").custom(userIdAlreadyExists),
-    check("role").custom(roleIsValid),
-    validateFields,
-  ],
-  updateUser
-);
 
 userRouter.post(
   "/",
@@ -45,14 +32,27 @@ userRouter.post(
   createUser
 );
 
+userRouter.get("/", getUsers);
+
+userRouter.put(
+  "/:id",
+  [
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(userIdAlreadyExists),
+    check("role").custom(roleIsValid),
+    validateFields,
+  ],
+  updateUser
+);
+
 userRouter.delete(
   "/:id",
   [
     validateJWT,
-    isAdminRole,
-    hasRole("ADMIN_ROLE", "VENTAR_ROLE", "OTRO_ROLE"),
-    check("id", "No es un ID válido").isMongoId(),
-    check("id").custom(userIdAlreadyExists),
+    //isAdminRole,
+    //hasRole("ADMIN_ROLE", "VENTAR_ROLE", "OTRO_ROLE"),
+    //check("id", "No es un ID válido").isMongoId(),
+    //check("id").custom(userIdAlreadyExists),
     validateFields,
   ],
   deleteUser

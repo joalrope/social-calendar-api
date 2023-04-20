@@ -14,8 +14,12 @@ export const getUsers = async (req: Request, res: Response) => {
   ]);
 
   res.json({
-    total,
-    users,
+    ok: true,
+    msg: "The list of users was successfully obtained",
+    result: {
+      total,
+      users,
+    },
   });
 };
 
@@ -43,7 +47,7 @@ export const createUser = async (req: Request, res: Response) => {
     await user.save();
 
     // Generar el JWT
-    const token = await generateJWT(user.id);
+    const token = await generateJWT(user.id, user.email, user.role);
 
     return res.status(200).json({
       ok: true,
@@ -79,9 +83,14 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findByIdAndUpdate(id, { isActive: false });
 
-  res.json({
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isActive: false },
+    { new: true }
+  );
+
+  return res.json({
     ok: true,
     msg: "User deleted successfully",
     result: user,

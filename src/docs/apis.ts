@@ -1,5 +1,3 @@
-const path = require("path");
-
 export const apis = {
-  apis: [`${path.join(__dirname, "../routes/*.ts")}`],
+  apis: ["./src/routes/index.ts", "./src/models/index.ts"],
 };

@@ -1,4 +1,3 @@
-import { response } from "../response";
 export const createUser = {
   post: {
     tags: ["Users"],
@@ -14,6 +13,9 @@ export const createUser = {
             type: "object",
             required: ["name", "email", "password"],
             properties: {
+              id: {
+                $ref: "#/components/schemas/id",
+              },
               name: {
                 type: "string",
                 description: "The user's name",
@@ -38,7 +40,7 @@ export const createUser = {
             example: {
               name: "Bohiques Contact",
               email: "contact@bohiques.com",
-              password: "bo.-hi2023",
+              password: "Bo.-hi2023",
               picture: "https://cloudinary.com/45lok999ugt55f4.png",
               role: "USER_ROLE",
             },
@@ -49,11 +51,25 @@ export const createUser = {
     responses: {
       "200": {
         description: "A user object.",
-        content: { ...response },
+        content: {
+          // content-type
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/Response", // response model
+            },
+          },
+        },
       },
       "409": {
         description: "The request can't be processed.",
-        content: { ...response },
+        content: {
+          // content-type
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/Response", // response model
+            },
+          },
+        },
       },
     },
   },
