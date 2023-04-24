@@ -1,4 +1,4 @@
-export const createUser = {
+export const userCR = {
   post: {
     tags: ["Users"],
     summary: "Creates a new user.",
@@ -62,6 +62,27 @@ export const createUser = {
       },
       "409": {
         description: "The request can't be processed.",
+        content: {
+          // content-type
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/Response", // response model
+            },
+          },
+        },
+      },
+    },
+  },
+  get: {
+    tags: ["Users"], // operation's tag.
+    summary: "User list.",
+    produce: ["application/json"],
+    parameters: [], // expected params.
+    // expected responses
+    responses: {
+      // response code
+      200: {
+        description: "User List were obtained", // response desc.
         content: {
           // content-type
           "application/json": {

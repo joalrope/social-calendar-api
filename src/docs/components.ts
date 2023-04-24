@@ -92,7 +92,9 @@ export const components = {
           result: {
             type: "object",
             description: "object with requested values",
-            example: "{ id: '44sfsfs4ssffs', name: 'Bohiquez Contact'}", // example of an error internal code
+            example: {
+              $ref: "#/components/schemas/id",
+            }, // example of an error internal code
           },
         },
       },
