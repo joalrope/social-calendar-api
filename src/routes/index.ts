@@ -1,10 +1,11 @@
 import { Express } from "express";
-import { authRouter } from "./auth";
-import { userRouter } from "./users";
-import { uploadRouter } from "./uploads";
-import { searchRouter } from "./search";
 import { categoryRouter } from "./categories";
-import { smPostRouter } from "./sm-posts";
+import { uploadRouter } from "./uploads";
+import { snPostRouter } from "./sn-posts";
+import { searchRouter } from "./search";
+import { userRouter } from "./users";
+import { authRouter } from "./auth";
+import { socialNetworkRouter } from "./social-network";
 
 interface IPaths {
   categories: string;
@@ -13,6 +14,7 @@ interface IPaths {
   search: string;
   users: string;
   auth: string;
+  sm: string;
 }
 
 const paths: IPaths = {
@@ -22,13 +24,15 @@ const paths: IPaths = {
   search: "/api/search",
   users: "/api/users",
   auth: "/api/auth",
+  sm: "/api/sm",
 };
 
 export const apiRoutes = (app: Express) => {
   app.use(paths.categories, categoryRouter);
   app.use(paths.uploads, uploadRouter);
-  app.use(paths.smPost, smPostRouter);
+  app.use(paths.smPost, snPostRouter);
   app.use(paths.search, searchRouter);
   app.use(paths.users, userRouter);
   app.use(paths.auth, authRouter);
+  app.use(paths.sm, socialNetworkRouter);
 };

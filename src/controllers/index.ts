@@ -1,48 +1,34 @@
-import { login } from "./auth";
-import { getUsers, createUser, updateUser, deleteUser } from "./users";
-import {
-  getSMPosts,
-  getSMPost,
-  createSMPost,
-  updateSMPost,
-  deleteSMPost,
-} from "./sm-posts";
-import {
+export {
+  getSNPosts,
+  getSNPost,
+  createSNPost,
+  updateSNPost,
+  deleteSNPost,
+} from "./sn-posts";
+
+export {
+  getSocialNetwork,
+  getSocialNetworks,
+  createSocialNetwork,
+  updateSocialNetwork,
+  deleteSocialNetwork,
+} from "./social-network";
+
+export {
   getCategories,
   getCategory,
   createCategory,
   updateCategory,
   deleteCategory,
 } from "./categories";
-import { searchUser, searchCategories, searchProducts } from "./search";
-import {
+
+export {
   fileUpload,
   updateImage,
   updateImageCloudinary,
   showImage,
 } from "./uploads";
 
-export {
-  login,
-  getUsers,
-  createUser,
-  updateUser,
-  deleteUser,
-  getSMPosts,
-  getSMPost,
-  createSMPost,
-  updateSMPost,
-  deleteSMPost,
-  getCategories,
-  getCategory,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  searchUser,
-  searchCategories,
-  searchProducts,
-  fileUpload,
-  updateImage,
-  updateImageCloudinary,
-  showImage,
-};
+export { searchUser, searchCategories, searchProducts } from "./search";
+export { getUsers, createUser, updateUser, deleteUser } from "./users";
+export { login } from "./auth";

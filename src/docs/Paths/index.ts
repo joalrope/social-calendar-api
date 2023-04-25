@@ -1,8 +1,8 @@
 import { login } from "./Auth/login";
 import { userCR } from "./Users/user-CR";
 import { userUD } from "./Users/userUD";
-import { smPostCR } from "./SMPosts/sm-post-CR";
-import { smPostUD } from "./SMPosts/sm-post-UD";
+import { snPostCR } from "./SNPosts/sn-post-CR";
+import { snPostUD } from "./SNPosts/sn-post-UD";
 
 export const paths = {
   paths: {
@@ -16,10 +16,10 @@ export const paths = {
       ...userUD,
     },
     "/api/smposts": {
-      ...smPostCR,
+      ...snPostCR,
     },
     "/api/smposts/{id}": {
-      ...smPostUD,
+      ...snPostUD,
     },
 
     // '/todos/{id}':{

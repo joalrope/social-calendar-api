@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
 
-interface ISMPost {
+interface ISNPost {
   id: Schema.Types.ObjectId;
-  socialMedia: Schema.Types.ObjectId;
+  hash: String;
+  socialNetwork: Schema.Types.ObjectId;
   message: string;
   visualResources: [String];
   postDate: Date;
@@ -11,13 +12,17 @@ interface ISMPost {
   isActive: boolean;
 }
 
-const SMPostSchema = new Schema<ISMPost>({
+const SNPostSchema = new Schema<ISNPost>({
   id: {
     type: Schema.Types.ObjectId,
   },
-  socialMedia: {
+  hash: {
+    type: String,
+    unique: true,
+  },
+  socialNetwork: {
     type: Schema.Types.ObjectId,
-    ref: "SocialMedia",
+    ref: "SocialNetwork",
     required: true,
   },
   message: {
@@ -47,9 +52,9 @@ const SMPostSchema = new Schema<ISMPost>({
   },
 });
 
-SMPostSchema.methods.toJSON = function () {
+SNPostSchema.methods.toJSON = function () {
   const { __v, isActive, ...data } = this.toObject();
   return data;
 };
 
-export const SMPost = model("SMPost", SMPostSchema);
+export const SMPost = model("SMPost", SNPostSchema);

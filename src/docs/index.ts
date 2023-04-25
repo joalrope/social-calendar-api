@@ -12,5 +12,4 @@ export const options = {
   ...apis,
   ...components,
   ...paths,
-  //...todos
 };

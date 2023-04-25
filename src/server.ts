@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import { dbConnection } from "./database/config";
 import swaggerUI from "swagger-ui-express";
-import { swaggerStart } from "./docs/swagger-start";
+//import { swaggerStart } from "./docs/swagger-start";
 import { options } from "./docs/index";
 import fileUpload from "express-fileupload";
 import { apiRoutes } from "./routes";
@@ -56,7 +56,7 @@ export class Server {
   listen() {
     this.app.listen(this.port, () => {
       console.log("Servidor corriendo en puerto", this.port);
-      swaggerStart();
+      //swaggerStart();
     });
   }
 }

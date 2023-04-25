@@ -3,7 +3,7 @@ export const definition = {
   info: {
     title: "Api for Social Calendar",
     version: "0.0.1",
-    description: `This is an API for deferred posting, to social media, via cron,
+    description: `This is an API for deferred posting, to social network, via cron,
 			              done with Node-Express and documented with Swagger`,
     license: {
       name: "UNLICENSED",

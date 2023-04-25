@@ -3,57 +3,65 @@ import { check } from "express-validator";
 
 import { validateJWT, validateFields, isAdminRole } from "../middlewares";
 import {
+  isDate,
+  isAfter,
   /* categoryIdAlreadyExists, */ productIdAlreadyExists,
 } from "../helpers";
 import {
-  createSMPost,
-  getSMPosts,
-  getSMPost,
-  updateSMPost,
-  deleteSMPost,
+  createSNPost,
+  getSNPosts,
+  getSNPost,
+  updateSNPost,
+  deleteSNPost,
 } from "../controllers";
 
-export const smPostRouter = Router();
+export const snPostRouter = Router();
 
 /**
  * {{url}}/api/sm-posts
  */
 
 //  Obtener todas las categorias - publico
-smPostRouter.get("/", getSMPosts);
+snPostRouter.get("/", getSNPosts);
 
 // Obtener una categoria por id - publico
-smPostRouter.get(
+snPostRouter.get(
   "/:id",
   [
     check("id", "No es un id de Mongo válido").isMongoId(),
     check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
-  getSMPost
+  getSNPost
 );
 
 // Crear Social media post - privado - cualquier persona con un token válido
-smPostRouter.post(
+snPostRouter.post(
   "/",
   [
     validateJWT,
     check("socialMedia", "La red social es obligatoria").notEmpty(),
     check("postDate", "La fecha de publicación es obligatoria").notEmpty(),
-    check("postDate", "Debe ser una fecha valida").isDate(),
-    check("postDate", "Debe ser una fecha valida").isAfter(),
+    check(
+      "postDate",
+      "La fecha de publicación debe ser una fecha valida"
+    ).custom(isDate),
+    check(
+      "postDate",
+      "La fecha de publicacion deber ser posterior al momento actual"
+    ).custom(isAfter),
     check(
       "message",
       "El mensaje de la publicacion No puede estar vacio"
     ).notEmpty(),
-    check("isPostMade", "No es un id de Mongo").isMongoId(),
+    // check("user", "No es un id de Mongo").isMongoId(),
     validateFields,
   ],
-  createSMPost
+  createSNPost
 );
 
 // Actualizar - privado - cualquiera con token válido
-smPostRouter.put(
+snPostRouter.put(
   "/:id",
   [
     validateJWT,
@@ -61,11 +69,11 @@ smPostRouter.put(
     check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
-  updateSMPost
+  updateSNPost
 );
 
 // Borrar una categoria - Admin
-smPostRouter.delete(
+snPostRouter.delete(
   "/:id",
   [
     validateJWT,
@@ -74,5 +82,5 @@ smPostRouter.delete(
     check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
-  deleteSMPost
+  deleteSNPost
 );

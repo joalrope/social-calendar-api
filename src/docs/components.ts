@@ -8,15 +8,15 @@ export const components = {
         example: "507f1f77bcf86cd799439011", // example of an id
       },
       // Social Media Post model
-      SMPost: {
+      SNPost: {
         type: "object",
         properties: {
           id: {
             $ref: "#/components/schemas/id",
           },
-          socialMedia: {
+          socialNetwork: {
             type: "string",
-            description: "Name of social media",
+            description: "Name of social network",
             example: "Facebook",
           },
           message: {

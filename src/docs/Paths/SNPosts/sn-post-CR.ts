@@ -1,22 +1,27 @@
-export const smPostCR = {
+export const snPostCR = {
   post: {
-    tags: ["SMPost"],
+    tags: ["SNPost"],
     summary: "Add new information to be published on a social network.",
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     consumes: ["application/json"],
     produce: ["application/json"],
-    name: "smPost",
+    name: "snPost",
     in: "body",
     requestBody: {
       content: {
         "application/json": {
           schema: {
             type: "object",
-            required: ["socialMedia", "message", "postDate", "user"],
+            required: ["socialNetwork", "message", "postDate", "user"],
             properties: {
               id: {
                 $ref: "#/components/schemas/id",
               },
-              socialMedia: {
+              socialNetwork: {
                 type: "string",
                 description: "the name of the social network",
               },
@@ -31,6 +36,7 @@ export const smPostCR = {
               },
               postDate: {
                 type: "string",
+                format: "datetime",
                 description: "the date on which the publication will be made",
               },
               user: {
@@ -39,7 +45,7 @@ export const smPostCR = {
               },
             },
             example: {
-              socialMedia: "Facebook",
+              socialNetwork: "Facebook",
               message:
                 "Visita a Bohiques.com y encontraras la manera mas rapida de fortalecer tu marca.",
               visualResources:
@@ -53,7 +59,7 @@ export const smPostCR = {
     },
     responses: {
       "200": {
-        description: "A Social media post object.",
+        description: "A social network post object.",
         content: {
           // content-type
           "application/json": {
@@ -77,20 +83,20 @@ export const smPostCR = {
     },
   },
   get: {
-    tags: ["SMPost"], // operation's tag.
-    summary: "Social media Post list.",
+    tags: ["SNPost"], // operation's tag.
+    summary: "Social network Post list.",
     produce: ["application/json"],
     parameters: [], // expected params.
     // expected responses
     responses: {
       // response code
       200: {
-        description: "SMPosts were obtained", // response desc.
+        description: "SNPosts were obtained", // response desc.
         content: {
           // content-type
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/SMPost", // Post model
+              $ref: "#/components/schemas/SNPost", // Post model
             },
           },
         },

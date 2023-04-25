@@ -13,13 +13,25 @@ export const getUsers = async (req: Request, res: Response) => {
     User.find(query).skip(Number(from)).limit(Number(limit)),
   ]);
 
-  res.json({
+  return res.status(200).json({
     ok: true,
     msg: "The list of users was successfully obtained",
     result: {
       total,
       users,
     },
+  });
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const user = await User.findById(id);
+
+  return res.status(200).json({
+    ok: true,
+    msg: `The user with id: ${id} was successfully obtained`,
+    result: user,
   });
 };
 
@@ -49,7 +61,7 @@ export const createUser = async (req: Request, res: Response) => {
     // Generar el JWT
     const token = await generateJWT(user.id, user.email, user.role);
 
-    return res.status(200).json({
+    return res.status(201).json({
       ok: true,
       msg: "User created successfully",
       result: {
@@ -76,23 +88,43 @@ export const updateUser = async (req: Request, res: Response) => {
     restData.password = bcryptjs.hashSync(password, salt);
   }
 
-  const user = await User.findByIdAndUpdate(id, restData);
+  try {
+    const user = await User.findByIdAndUpdate(id, restData);
 
-  res.json(user);
+    return res.status(204).json({
+      ok: true,
+      msg: "User updated successfully",
+      result: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+      result: {},
+    });
+  }
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const user = await User.findByIdAndUpdate(
-    id,
-    { isActive: false },
-    { new: true }
-  );
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true }
+    );
 
-  return res.json({
-    ok: true,
-    msg: "User deleted successfully",
-    result: user,
-  });
+    return res.status(204).json({
+      ok: true,
+      msg: "User deleted successfully",
+      result: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+      result: {},
+    });
+  }
 };

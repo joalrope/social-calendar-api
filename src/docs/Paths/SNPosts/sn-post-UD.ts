@@ -1,19 +1,19 @@
-export const smPostUD = {
+export const snPostUD = {
   put: {
-    tags: ["SMPost"],
+    tags: ["SNPost"],
     parameters: [
       {
         in: "body",
-        name: "smposts",
-        description: "Create a new social media post.",
+        name: "snposts",
+        description: "Create a new social network post.",
         schema: {
           type: "object",
-          required: ["socialMedia", "message", "postDate", "user"],
+          required: ["socialNetwork", "message", "postDate", "user"],
           properties: {
             id: {
               $ref: "#/components/schemas/id",
             },
-            socialMedia: {
+            socialNetwork: {
               type: "string",
             },
             message: {
@@ -30,7 +30,7 @@ export const smPostUD = {
             },
           },
           example: {
-            socialMedia: "Facebook",
+            socialNetwork: "Facebook",
             message:
               "Visita a Bohiques.com y encontraras la manera mas rapida de fortalecer tu marca.",
             visualResources:
@@ -48,20 +48,20 @@ export const smPostUD = {
     },
   },
   delete: {
-    tags: ["SMPost"], // operation's tag.
-    description: "Get sm-posts", // operation's desc.
-    operationId: "getSMPosts", // unique operation id.
+    tags: ["SNPost"], // operation's tag.
+    description: "Get sn-posts", // operation's desc.
+    operationId: "getSNPosts", // unique operation id.
     parameters: [], // expected params.
     // expected responses
     responses: {
       // response code
       200: {
-        description: "SMPosts were obtained", // response desc.
+        description: "SNPosts were obtained", // response desc.
         content: {
           // content-type
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/SMPost", // Post model
+              $ref: "#/components/schemas/SNPost", // Post model
             },
           },
         },

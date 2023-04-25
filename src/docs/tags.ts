@@ -10,7 +10,7 @@ export const tags = {
       name: "Users",
     },
     {
-      name: "SMPost",
+      name: "SNPost",
     },
     ,
   ],

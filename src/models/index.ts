@@ -1,7 +1,6 @@
-import { Category } from "./category";
-import { SMPost } from "./sm-post";
-import { Role } from "./role";
-import { Server } from "../server";
-import { User } from "./user";
-
-export { Category, SMPost, Role, Server, User };
+export { SocialNetwork } from "./social-network";
+export { Category } from "./category";
+export { SMPost } from "./sn-post";
+export { Role } from "./role";
+export { Server } from "../server";
+export { User } from "./user";
