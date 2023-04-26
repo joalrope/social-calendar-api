@@ -1,6 +1,12 @@
 export const snPostUD = {
   put: {
-    tags: ["SNPost"],
+    tags: ["Social Network Post"],
+    summary: "Social network Post data update.",
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     parameters: [
       {
         in: "body",
@@ -48,7 +54,13 @@ export const snPostUD = {
     },
   },
   delete: {
-    tags: ["SNPost"], // operation's tag.
+    tags: ["Social Network Post"], // operation's tag.
+    summary: "Soft delete a social network post.",
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     description: "Get sn-posts", // operation's desc.
     operationId: "getSNPosts", // unique operation id.
     parameters: [], // expected params.

@@ -7,6 +7,22 @@ export const components = {
         description: "An id of a resource",
         example: "507f1f77bcf86cd799439011", // example of an id
       },
+      // Social Media model
+      SocialNetwork: {
+        type: "object",
+        properties: {
+          id: {
+            type: "ObjectId of MongoDB",
+            description: "An id of a resource",
+            example: "507f1f77bcf86cd799439011", // example of an id
+          },
+          name: {
+            type: "string",
+            description: "Name of social network",
+            example: "Facebook",
+          },
+        },
+      },
       // Social Media Post model
       SNPost: {
         type: "object",

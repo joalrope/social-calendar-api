@@ -34,7 +34,9 @@ export const getSocialNetwork = async (req: Request, res: Response) => {
 };
 
 export const createSocialNetwork = async (req: Request, res: Response) => {
-  const name: string = req.body.name.toUpperCase();
+  const name: string =
+    req.body.name.charAt(0).toUpperCase() +
+    req.body.name.slice(1).toLowerCase();
 
   const socialNetworkDB = await SocialNetwork.findOne({ name });
 
@@ -49,7 +51,6 @@ export const createSocialNetwork = async (req: Request, res: Response) => {
   // Generar la data a guardar
   const data = {
     name,
-    user: req.body.user._id,
   };
 
   const socialNetwork = new SocialNetwork(data);

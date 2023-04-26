@@ -1,6 +1,6 @@
 export const snPostCR = {
   post: {
-    tags: ["SNPost"],
+    tags: ["Social Network Post"],
     summary: "Add new information to be published on a social network.",
     security: [
       {
@@ -83,7 +83,7 @@ export const snPostCR = {
     },
   },
   get: {
-    tags: ["SNPost"], // operation's tag.
+    tags: ["Social Network Post"], // operation's tag.
     summary: "Social network Post list.",
     produce: ["application/json"],
     parameters: [], // expected params.

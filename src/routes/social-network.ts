@@ -2,7 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 
 import { validateFields, validateJWT } from "../middlewares";
-import { roleIsValid, userIdAlreadyExists } from "../helpers";
+import { roleIsValid /* , userIdAlreadyExists */ } from "../helpers";
 import {
   createSocialNetwork,
   getSocialNetwork,
@@ -32,11 +32,12 @@ socialNetworkRouter.post(
 socialNetworkRouter.get("/", getSocialNetworks);
 
 socialNetworkRouter.get(
-  "/:id",
+  "/:id/:userId",
   [
-    check("id", "No es un ID válido").isMongoId(),
-    check("id").custom(userIdAlreadyExists),
-    check("role").custom(roleIsValid),
+    check("id").isMongoId().withMessage("No es un ID de red socialválido"),
+    // check("userId").custom(userIdAlreadyExists),
+    check("userId").isMongoId().withMessage("No es un ID de usuario válido"),
+    check("userId").custom(roleIsValid).withMessage("No es un Role válido"),
     validateFields,
   ],
   getSocialNetwork
@@ -46,7 +47,7 @@ socialNetworkRouter.put(
   "/:id",
   [
     check("id", "No es un ID válido").isMongoId(),
-    check("id").custom(userIdAlreadyExists),
+    // check("id").custom(userIdAlreadyExists),
     check("role").custom(roleIsValid),
     validateFields,
   ],

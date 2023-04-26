@@ -1,10 +1,15 @@
 import { Schema } from "mongoose";
 import { User, Category, SMPost, Role } from "../models";
 
-export const roleIsValid = async (role: string = "USER_ROLE") => {
-  const roleDB = await Role.findOne({ role });
-  if (!roleDB) {
-    throw new Error(`El rol ${role} no está registrado en la BD`);
+export const roleIsValid = async (role: string) => {
+  try {
+    const roleDB = await Role.findOne({ role });
+
+    if (!roleDB) return false;
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };
 
@@ -18,6 +23,7 @@ export const emailAlreadyExists = async (email: string = "") => {
 
 export const userIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
   // Verificar si el correo existe
+
   const userDB = await User.findById(id);
   if (!userDB) {
     throw new Error(`El id no existe ${id}`);

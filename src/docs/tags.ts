@@ -10,7 +10,10 @@ export const tags = {
       name: "Users",
     },
     {
-      name: "SNPost",
+      name: "Social Network",
+    },
+    {
+      name: "Social Network Post",
     },
     ,
   ],
