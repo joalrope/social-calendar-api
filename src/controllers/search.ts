@@ -10,38 +10,72 @@ export const searchUser = async (termino = "", res: Response) => {
   const isMongoID = ObjectId.isValid(termino); // TRUE
 
   if (isMongoID) {
-    const user = await User.findById(termino);
-    return res.json({
-      results: user ? [user] : [],
-    });
+    try {
+      const user = await User.findById(termino);
+
+      if (user) {
+        return res.status(200).json({
+          ok: true,
+          msg: `the users whose id contains ${termino} were fetched successfully successfully`,
+          results: [user],
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        ok: false,
+        msg: "Please talk to the administrator",
+        result: { error },
+      });
+    }
   }
 
   const regex = new RegExp(termino, "i");
-  const users = await User.find({
-    $or: [{ name: regex }, { email: regex }],
-    $and: [{ isActive: true }],
-  });
 
-  return res.json({
-    results: users,
-  });
+  try {
+    const users = await User.find({
+      $or: [{ name: regex }, { email: regex }],
+      $and: [{ isActive: true }],
+    });
+
+    return res.status(200).json({
+      ok: true,
+      msg: "",
+      results: { users },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: { error },
+    });
+  }
 };
 
 export const searchCategories = async (termino = "", res: Response) => {
   const isMongoID = ObjectId.isValid(termino); // TRUE
 
   if (isMongoID) {
-    const category = await Category.findById(termino);
-    return res.json({
-      results: category ? [category] : [],
-    });
+    try {
+      const category = await Category.findById(termino);
+      return res.json({
+        results: category ? [category] : [],
+      });
+    } catch (error) {
+      return res.status(500).json({
+        ok: false,
+        msg: "Please talk to the administrator",
+        result: { error },
+      });
+    }
   }
 
   const regex = new RegExp(termino, "i");
   const categories = await Category.find({ name: regex, isActive: true });
 
-  return res.json({
-    results: categories,
+  return res.status(200).json({
+    ok: true,
+    msg: `Categories containing ${termino} in their name were successfully fetched`,
+    results: { categories },
   });
 };
 
@@ -74,7 +108,9 @@ export const search = (req: Request, res: Response) => {
 
   if (!collectionsAllowed.includes(colection)) {
     return res.status(400).json({
+      ok: false,
       msg: `Las colecciones permitidas son: ${collectionsAllowed}`,
+      result: {},
     });
   }
 

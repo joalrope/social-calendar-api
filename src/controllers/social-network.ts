@@ -43,7 +43,7 @@ export const createSocialNetwork = async (req: Request, res: Response) => {
   if (socialNetworkDB) {
     return res.status(409).json({
       ok: false,
-      msg: `La red social ${socialNetworkDB.name}, ya existe`,
+      msg: `The social network ${socialNetworkDB.name}, it already exists`,
       result: {},
     });
   }

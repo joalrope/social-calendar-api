@@ -9,10 +9,11 @@ export const login = async (req: Request, res: Response) => {
   try {
     // Verificar si el email existe
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         ok: false,
-        msg: "Usuario / Password no son correctos - correo",
+        msg: "User / Password are not correct",
         result: {},
       });
     }
@@ -21,7 +22,7 @@ export const login = async (req: Request, res: Response) => {
     if (!user.isActive) {
       return res.status(400).json({
         ok: false,
-        msg: "Usuario / Password no son correctos - estado: false",
+        msg: "User / Password are not correct - status: false",
         result: {},
       });
     }
@@ -31,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
     if (!validPassword) {
       return res.status(400).json({
         ok: false,
-        msg: "Usuario / Password no son correctos - password",
+        msg: "Usuario / Password no son correctos",
         result: {},
       });
     }
@@ -51,7 +52,7 @@ export const login = async (req: Request, res: Response) => {
     console.log(error);
     return res.status(500).json({
       ok: false,
-      msg: "Hable con el administrador",
+      msg: "Please talk to the administrator",
       result: {},
     });
   }

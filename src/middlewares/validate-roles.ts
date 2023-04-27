@@ -7,7 +7,7 @@ export const isAdminRole = (
 ) => {
   if (!req.body.user) {
     return res.status(500).json({
-      msg: "Se quiere verificar el role sin validar el token primero",
+      msg: "You want to verify the role without validating the token first",
     });
   }
 
@@ -15,7 +15,7 @@ export const isAdminRole = (
 
   if (rol !== "ADMIN_ROLE") {
     return res.status(401).json({
-      msg: `${name} no es administrador - No tiene autorización para realizar esta operación`,
+      msg: `${name} not an administrator - You do not have authorization to perform this operation`,
     });
   }
 
@@ -27,13 +27,13 @@ export const hasRole = (...roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.body.user) {
       return res.status(500).json({
-        msg: "Se quiere verificar el role sin validar el token primero",
+        msg: "You want to verify the role without validating the token first",
       });
     }
 
     if (!roles.includes(req.body.user.rol)) {
       return res.status(401).json({
-        msg: `El servicio requiere uno de estos roles ${roles}`,
+        msg: `The service requires one of these roles: ${roles}`,
       });
     }
 

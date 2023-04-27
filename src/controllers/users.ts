@@ -60,7 +60,7 @@ export const createUser = async (req: Request, res: Response) => {
     if (userDB) {
       return res.status(409).json({
         ok: false,
-        msg: `Ya existe un usuario con el correo ${email}`,
+        msg: `There is already a user with the email ${email}`,
         result: {},
       });
     }

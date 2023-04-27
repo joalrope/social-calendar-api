@@ -41,7 +41,7 @@ export const validateJWT = async (
     // Verificar si el uid tiene estado true
     if (!user.isActive) {
       return res.status(401).json({
-        msg: "Token no válido - usuario con estado: false",
+        msg: "Invalid token - user status: false",
       });
     }
 
@@ -50,7 +50,7 @@ export const validateJWT = async (
   } catch (error) {
     console.log(error);
     return res.status(401).json({
-      msg: "Token no válido",
+      msg: "Invalid token",
     });
   }
 };

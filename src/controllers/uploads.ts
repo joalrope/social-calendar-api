@@ -33,7 +33,7 @@ export const updateImage = async (req: Request, res: Response) => {
       model = await User.findById(id);
       if (!model) {
         return res.status(400).json({
-          msg: `No existe un usuario con el id ${id}`,
+          msg: `There is no user with the id ${id}`,
         });
       }
 
@@ -44,7 +44,7 @@ export const updateImage = async (req: Request, res: Response) => {
       if (!model) {
         return res.status(400).json({
           ok: false,
-          msg: `No existe una publicación con el id ${id}`,
+          msg: `There is no publication with the id ${id}`,
           result: {},
         });
       }
@@ -54,7 +54,7 @@ export const updateImage = async (req: Request, res: Response) => {
     default:
       return res.status(500).json({
         ok: false,
-        msg: "Se me olvidó validar esto",
+        msg: "I forgot to validate this",
         result: {},
       });
   }
@@ -86,7 +86,7 @@ export const updateImageCloudinary = async (req: Request, res: Response) => {
       model = await User.findById(id);
       if (!model) {
         return res.status(400).json({
-          msg: `No existe un usuario con el id ${id}`,
+          msg: `There is no user with the id ${id}`,
         });
       }
 
@@ -96,14 +96,14 @@ export const updateImageCloudinary = async (req: Request, res: Response) => {
       model = await SMPost.findById(id);
       if (!model) {
         return res.status(400).json({
-          msg: `No existe un producto con el id ${id}`,
+          msg: `There is no social network posts with the id ${id}`,
         });
       }
 
       break;
 
     default:
-      return res.status(500).json({ msg: "Se me olvidó validar esto" });
+      return res.status(500).json({ msg: "I forgot to validate this" });
   }
 
   // Limpiar imágenes previas
@@ -133,7 +133,7 @@ export const showImage = async (req: Request, res: Response) => {
       model = await User.findById(id);
       if (!model) {
         return res.status(400).json({
-          msg: `No existe un usuario con el id ${id}`,
+          msg: `There is no user with the id ${id}`,
         });
       }
 
@@ -143,14 +143,14 @@ export const showImage = async (req: Request, res: Response) => {
       model = await SMPost.findById(id);
       if (!model) {
         return res.status(400).json({
-          msg: `No existe un producto con el id ${id}`,
+          msg: `There is no product with the id ${id}`,
         });
       }
 
       break;
 
     default:
-      return res.status(500).json({ msg: "Se me olvidó validar esto" });
+      return res.status(500).json({ msg: "I forgot to validate this" });
   }
 
   // Limpiar imágenes previas
