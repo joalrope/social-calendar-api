@@ -9,8 +9,8 @@ const collectionsAllowed = ["usuarios", "categorias", "productos", "roles"];
 export const searchUser = async (termino = "", res: Response) => {
   const isMongoID = ObjectId.isValid(termino); // TRUE
 
-  if (isMongoID) {
-    try {
+  try {
+    if (isMongoID) {
       const user = await User.findById(termino);
 
       if (user) {
@@ -20,18 +20,10 @@ export const searchUser = async (termino = "", res: Response) => {
           results: [user],
         });
       }
-    } catch (error) {
-      return res.status(500).json({
-        ok: false,
-        msg: "Please talk to the administrator",
-        result: { error },
-      });
     }
-  }
 
-  const regex = new RegExp(termino, "i");
+    const regex = new RegExp(termino, "i");
 
-  try {
     const users = await User.find({
       $or: [{ name: regex }, { email: regex }],
       $and: [{ isActive: true }],
@@ -54,53 +46,63 @@ export const searchUser = async (termino = "", res: Response) => {
 export const searchCategories = async (termino = "", res: Response) => {
   const isMongoID = ObjectId.isValid(termino); // TRUE
 
-  if (isMongoID) {
-    try {
+  try {
+    if (isMongoID) {
       const category = await Category.findById(termino);
+
       return res.json({
         results: category ? [category] : [],
       });
-    } catch (error) {
-      return res.status(500).json({
-        ok: false,
-        msg: "Please talk to the administrator",
-        result: { error },
-      });
     }
+
+    const regex = new RegExp(termino, "i");
+
+    const categories = await Category.find({ name: regex, isActive: true });
+
+    return res.status(200).json({
+      ok: true,
+      msg: `Categories containing ${termino} in their name were successfully fetched`,
+      results: { categories },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: { error },
+    });
   }
-
-  const regex = new RegExp(termino, "i");
-  const categories = await Category.find({ name: regex, isActive: true });
-
-  return res.status(200).json({
-    ok: true,
-    msg: `Categories containing ${termino} in their name were successfully fetched`,
-    results: { categories },
-  });
 };
 
 export const searchProducts = async (termino = "", res: Response) => {
   const isMongoID = ObjectId.isValid(termino); // TRUE
 
-  if (isMongoID) {
-    const product = await Product.findById(termino).populate(
-      "category",
-      "name"
-    );
+  try {
+    if (isMongoID) {
+      const product = await Product.findById(termino).populate(
+        "category",
+        "name"
+      );
+      return res.json({
+        results: product ? [product] : [],
+      });
+    }
+
+    const regex = new RegExp(termino, "i");
+    const products = await Product.find({
+      name: regex,
+      isActive: true,
+    }).populate("category", "name");
+
     return res.json({
-      results: product ? [product] : [],
+      results: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: { error },
     });
   }
-
-  const regex = new RegExp(termino, "i");
-  const products = await Product.find({ name: regex, isActive: true }).populate(
-    "category",
-    "name"
-  );
-
-  return res.json({
-    results: products,
-  });
 };
 
 export const search = (req: Request, res: Response) => {

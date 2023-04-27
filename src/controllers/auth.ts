@@ -29,6 +29,7 @@ export const login = async (req: Request, res: Response) => {
 
     // Verificar la contraseña
     const validPassword = bcryptjs.compareSync(password, user.password);
+
     if (!validPassword) {
       return res.status(400).json({
         ok: false,
@@ -49,11 +50,10 @@ export const login = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       ok: false,
       msg: "Please talk to the administrator",
-      result: {},
+      result: { error },
     });
   }
 };

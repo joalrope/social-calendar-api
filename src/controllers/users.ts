@@ -8,19 +8,27 @@ export const getUsers = async (req: Request, res: Response) => {
   const { limit = 5, from = 0 } = req.query;
   const query = { isActive: true };
 
-  const [total, users] = await Promise.all([
-    User.countDocuments(query),
-    User.find(query).skip(Number(from)).limit(Number(limit)),
-  ]);
+  try {
+    const [total, users] = await Promise.all([
+      User.countDocuments(query),
+      User.find(query).skip(Number(from)).limit(Number(limit)),
+    ]);
 
-  return res.status(200).json({
-    ok: true,
-    msg: "The list of users was successfully obtained",
-    result: {
-      total,
-      users,
-    },
-  });
+    return res.status(200).json({
+      ok: true,
+      msg: "The list of users was successfully obtained",
+      result: {
+        total,
+        users,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: {},
+    });
+  }
 };
 
 export const getUser = async (req: Request, res: Response) => {

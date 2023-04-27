@@ -6,31 +6,47 @@ export const getSocialNetworks = async (req: Request, res: Response) => {
   const { limit = 5, from = 0 } = req.query;
   const query = { isActive: true };
 
-  const [total, socialNetworks] = await Promise.all([
-    SocialNetwork.countDocuments(query),
-    SocialNetwork.find(query).skip(Number(from)).limit(Number(limit)),
-  ]);
+  try {
+    const [total, socialNetworks] = await Promise.all([
+      SocialNetwork.countDocuments(query),
+      SocialNetwork.find(query).skip(Number(from)).limit(Number(limit)),
+    ]);
 
-  res.status(200).json({
-    ok: true,
-    msg: "The list of social networks was successfully obtained",
-    result: {
-      total,
-      socialNetworks,
-    },
-  });
+    return res.status(200).json({
+      ok: true,
+      msg: "The list of social networks was successfully obtained",
+      result: {
+        total,
+        socialNetworks,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: { error },
+    });
+  }
 };
 
 export const getSocialNetwork = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const socialNetwork = await SocialNetwork.findById(id);
+  try {
+    const socialNetwork = await SocialNetwork.findById(id);
 
-  return res.status(200).json({
-    ok: true,
-    msg: `The socialNetwork with id: ${id} was successfully obtained`,
-    result: socialNetwork,
-  });
+    return res.status(200).json({
+      ok: true,
+      msg: `The socialNetwork with id: ${id} was successfully obtained`,
+      result: socialNetwork,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: { error },
+    });
+  }
 };
 
 export const createSocialNetwork = async (req: Request, res: Response) => {
@@ -38,58 +54,82 @@ export const createSocialNetwork = async (req: Request, res: Response) => {
     req.body.name.charAt(0).toUpperCase() +
     req.body.name.slice(1).toLowerCase();
 
-  const socialNetworkDB = await SocialNetwork.findOne({ name });
+  try {
+    const socialNetworkDB = await SocialNetwork.findOne({ name });
 
-  if (socialNetworkDB) {
+    if (socialNetworkDB) {
+      return res.status(409).json({
+        ok: false,
+        msg: `The social network ${socialNetworkDB.name}, it already exists`,
+        result: {},
+      });
+    }
+
+    // Generar la data a guardar
+    const data = {
+      name,
+    };
+
+    const socialNetwork = new SocialNetwork(data);
+
+    // Guardar DB
+    await socialNetwork.save();
+
+    return res.status(201).json({
+      ok: true,
+      msg: `The social networks ${name} was successfully created`,
+      result: socialNetwork,
+    });
+  } catch (error) {
     return res.status(409).json({
       ok: false,
-      msg: `The social network ${socialNetworkDB.name}, it already exists`,
+      msg: `The social network ${name}, it already exists`,
       result: {},
     });
   }
-
-  // Generar la data a guardar
-  const data = {
-    name,
-  };
-
-  const socialNetwork = new SocialNetwork(data);
-
-  // Guardar DB
-  await socialNetwork.save();
-
-  return res.status(201).json({
-    ok: true,
-    msg: `The social networks ${name} was successfully created`,
-    result: socialNetwork,
-  });
 };
 
 export const updateSocialNetwork = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { _id, ...restData } = req.body;
 
-  const socialNetwork = await SocialNetwork.findByIdAndUpdate(id, restData);
+  try {
+    const socialNetwork = await SocialNetwork.findByIdAndUpdate(id, restData);
 
-  res.status(204).json({
-    ok: true,
-    msg: `The social networks with id: ${id} was successfully updated`,
-    result: socialNetwork,
-  });
+    return res.status(204).json({
+      ok: true,
+      msg: `The social networks with id: ${id} was successfully updated`,
+      result: socialNetwork,
+    });
+  } catch (error) {
+    return res.status(409).json({
+      ok: false,
+      msg: `The social network ${name}, it already exists`,
+      result: {},
+    });
+  }
 };
 
 export const deleteSocialNetwork = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const socialNetwork = await SocialNetwork.findByIdAndUpdate(
-    id,
-    { isActive: false },
-    { new: true }
-  );
+  try {
+    const socialNetwork = await SocialNetwork.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true }
+    );
 
-  return res.status(204).json({
-    ok: true,
-    msg: "Social network deleted successfully",
-    result: socialNetwork,
-  });
+    return res.status(204).json({
+      ok: true,
+      msg: "Social network deleted successfully",
+      result: socialNetwork,
+    });
+  } catch (error) {
+    return res.status(409).json({
+      ok: false,
+      msg: `The social network ${name}, it already exists`,
+      result: {},
+    });
+  }
 };
