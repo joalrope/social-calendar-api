@@ -4,8 +4,7 @@ import { check } from "express-validator";
 import { validateJWT, validateFields, isAdminRole } from "../middlewares";
 import {
   isDate,
-  isAfter,
-  /* categoryIdAlreadyExists, */ productIdAlreadyExists,
+  isAfter
 } from "../helpers";
 import {
   createSNPost,
@@ -29,7 +28,7 @@ snPostRouter.get(
   "/:id",
   [
     check("id", "No es un id de Mongo válido").isMongoId(),
-    check("id").custom(productIdAlreadyExists),
+    //check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
   getSNPost
@@ -65,8 +64,8 @@ snPostRouter.put(
   "/:id",
   [
     validateJWT,
-    // check('categoria','No es un id de Mongo').isMongoId(),
-    check("id").custom(productIdAlreadyExists),
+    check('categoria','No es un id de Mongo').isMongoId(),
+    // check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
   updateSNPost
@@ -79,7 +78,7 @@ snPostRouter.delete(
     validateJWT,
     isAdminRole,
     check("id", "No es un id de Mongo válido").isMongoId(),
-    check("id").custom(productIdAlreadyExists),
+    //check("id").custom(productIdAlreadyExists),
     validateFields,
   ],
   deleteSNPost

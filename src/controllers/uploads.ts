@@ -14,8 +14,12 @@ export const fileUpload = async (req: Request, res: Response) => {
     // const nombre = await subirArchivo( req.files, ['txt','md'], 'textos' );
     const name = await uploadFiles(req.files, undefined, "imgs");
     res.json({ name });
-  } catch (msg) {
-    res.status(400).json({ msg });
+  } catch (error) {
+    res.status(400).json({
+      ok: false,
+      msg: "Please talk to administrator",
+      result: { error },
+    });
   }
 };
 
@@ -39,14 +43,20 @@ export const updateImage = async (req: Request, res: Response) => {
       model = await SMPost.findById(id);
       if (!model) {
         return res.status(400).json({
-          msg: `No existe un producto con el id ${id}`,
+          ok: false,
+          msg: `No existe una publicación con el id ${id}`,
+          result: {},
         });
       }
 
       break;
 
     default:
-      return res.status(500).json({ msg: "Se me olvidó validar esto" });
+      return res.status(500).json({
+        ok: false,
+        msg: "Se me olvidó validar esto",
+        result: {},
+      });
   }
 
   // Limpiar imágenes previas

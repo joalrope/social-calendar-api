@@ -13,6 +13,7 @@ import {
   userIdAlreadyExists,
 } from "../helpers";
 import { getUsers, updateUser, createUser, deleteUser } from "../controllers";
+import { getUser } from "../controllers/users";
 
 export const userRouter = Router();
 
@@ -32,6 +33,16 @@ userRouter.post(
 );
 
 userRouter.get("/", getUsers);
+
+userRouter.get(
+  "/:id",
+  [
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(userIdAlreadyExists),
+    validateFields,
+  ],
+  getUser
+);
 
 userRouter.put(
   "/:id",

@@ -26,13 +26,29 @@ export const getUsers = async (req: Request, res: Response) => {
 export const getUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const user = await User.findById(id);
+  try {
+    const userDB = await User.findById(id);
 
-  return res.status(200).json({
-    ok: true,
-    msg: `The user with id: ${id} was successfully obtained`,
-    result: user,
-  });
+    if (userDB) {
+      return res.status(200).json({
+        ok: true,
+        msg: `The user with id: ${id} was successfully obtained`,
+        result: userDB,
+      });
+    }
+
+    return res.status(409).json({
+      ok: false,
+      msg: `The user with id: ${id} is inactive`,
+      result: userDB,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Please talk to the administrator",
+      result: { error },
+    });
+  }
 };
 
 export const createUser = async (req: Request, res: Response) => {
@@ -72,7 +88,7 @@ export const createUser = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({
       ok: false,
-      msg: "Por favor hable con el administrador",
+      msg: "Please talk to the administrator",
       result: {},
     });
   }
@@ -99,7 +115,7 @@ export const updateUser = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({
       ok: false,
-      msg: "Por favor hable con el administrador",
+      msg: "Please talk to the administrator",
       result: {},
     });
   }
@@ -123,7 +139,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({
       ok: false,
-      msg: "Por favor hable con el administrador",
+      msg: "Please talk to the administrator",
       result: {},
     });
   }

@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { User, Category, SMPost, Role } from "../models";
+import { User, Role } from "../models";
 
 export const roleIsValid = async (role: string) => {
   try {
@@ -23,47 +23,9 @@ export const emailAlreadyExists = async (email: string = "") => {
 
 export const userIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
   // Verificar si el correo existe
-
   const userDB = await User.findById(id);
+
   if (!userDB) {
-    throw new Error(`El id no existe ${id}`);
+    throw new Error(`El usuario con el id: ${id} no existe`);
   }
-};
-
-/**
- * Categorias
- */
-export const categoryIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
-  // Verificar si el correo existe
-  const categoryDB = await Category.findById(id);
-  if (!categoryDB) {
-    throw new Error(`El id no existe ${id}`);
-  }
-};
-
-/**
- * Productos
- */
-export const productIdAlreadyExists = async (id: Schema.Types.ObjectId) => {
-  // Verificar si el correo existe
-  const productDB = await SMPost.findById(id);
-  if (!productDB) {
-    throw new Error(`El id no existe ${id}`);
-  }
-};
-
-/**
- * Validar colecciones permitidas
- */
-export const collectionsAllowed = (
-  collection: string = "",
-  collections: string[] = []
-) => {
-  const included = collections.includes(collection);
-  if (!included) {
-    throw new Error(
-      `La colección ${collection} no es permitida, ${collections}`
-    );
-  }
-  return true;
 };

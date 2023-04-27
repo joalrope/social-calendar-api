@@ -1,5 +1,4 @@
 import { Express } from "express";
-import { categoryRouter } from "./categories";
 import { uploadRouter } from "./uploads";
 import { snPostRouter } from "./sn-posts";
 import { searchRouter } from "./search";
@@ -29,7 +28,6 @@ const paths: IPaths = {
 
 export const apiRoutes = (app: Express) => {
   app.use(paths.socialNetwork, socialNetworkRouter);
-  app.use(paths.categories, categoryRouter);
   app.use(paths.uploads, uploadRouter);
   app.use(paths.smPost, snPostRouter);
   app.use(paths.search, searchRouter);
