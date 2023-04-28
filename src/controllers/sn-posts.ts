@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
-import { SMPost } from "../models";
+
+import { SNPost } from "../models";
+import { getUserData } from "../helpers/jwt";
 
 export const getSNPosts = async (req: Request, res: Response) => {
   const { limit = 5, from = 0 } = req.query;
-  const query = { status: true };
+  const query = { isActive: true };
 
   try {
     const [total, snPosts] = await Promise.all([
-      SMPost.countDocuments(query),
-      SMPost.find(query)
+      SNPost.countDocuments(query),
+      SNPost.find(query)
         .populate("user", "name")
         .populate("category", "name")
         .skip(Number(from))
@@ -36,7 +38,7 @@ export const getSNPost = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const snPost = await SMPost.findById(id)
+    const snPost = await SNPost.findById(id)
       .populate("user", "name")
       .populate("category", "name");
 
@@ -57,22 +59,36 @@ export const getSNPost = async (req: Request, res: Response) => {
 };
 
 export const createSNPost = async (req: Request, res: Response) => {
-  const body = req.body;
+  const { visualResources, ...data } = req.body;
+  const { userId } = getUserData(req);
 
-  // Generar la data a guardar
-  const data = {
-    ...body,
-  };
+  visualResources.sort();
 
-  const newData = new SMPost(data);
+  const dataStd = { visualResources, ...data };
+
+  const hash = JSON.stringify(dataStd);
+
+  console.log({ hash });
+
+  const snPostDB = await SNPost.findOne({ hash, isActive: true });
+
+  if (snPostDB) {
+    return res.status(201).json({
+      ok: true,
+      msg: `There is already a post with the same information.`,
+      result: { snPostDB },
+    });
+  }
+
+  const newData = new SNPost({
+    hash,
+    ...dataStd,
+    userId,
+  });
 
   try {
     // Guardar DB
     const newSNPost = await newData.save();
-    // await newSMPost
-    //   .populate("user", "name")
-    //   .populate("category", "name")
-    //   .execPopulate();
 
     return res.status(201).json({
       ok: true,
@@ -92,6 +108,8 @@ export const updateSNPost = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { isActive, user, ...data } = req.body;
 
+  console.log(req.body);
+
   if (data.name) {
     data.name = data.name.toUpperCase();
   }
@@ -99,12 +117,7 @@ export const updateSNPost = async (req: Request, res: Response) => {
   data.user = req.body.user._id;
 
   try {
-    const snPost = await SMPost.findByIdAndUpdate(id, data, { new: true });
-
-    // await smPost
-    //   .populate("user", "name")
-    //   .populate("category", "name")
-    //   .execPopulate();
+    const snPost = await SNPost.findByIdAndUpdate(id, data, { new: true });
 
     return res.status(204).json({
       ok: true,
@@ -124,7 +137,7 @@ export const deleteSNPost = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const deletedSNPost = await SMPost.findByIdAndUpdate(
+    const deletedSNPost = await SNPost.findByIdAndUpdate(
       id,
       { isActive: false },
       { new: true }

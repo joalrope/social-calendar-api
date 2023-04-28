@@ -15,31 +15,25 @@ export const socialNetworkRouter = Router();
 
 socialNetworkRouter.post(
   "/",
-  /* [
+  [
+    validateJWT,
     check("name", "El nombre es obligatorio").not().isEmpty(),
-    check("password", "El password debe de ser más de 6 letras").isLength({
-      min: 6,
-    }),
-    check("email", "El correo no es válido").isEmail(),
-    check("email").custom(emailAlreadyExists),
-    //check('role', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
-    check("role").custom(roleIsValid),
     validateFields,
-  ], */
+  ],
   createSocialNetwork
 );
 
 socialNetworkRouter.get("/", getSocialNetworks);
 
 socialNetworkRouter.get(
-  "/:id/:userId",
-  [
+  "/:id",
+  /* [
     check("id").isMongoId().withMessage("No es un ID de red socialválido"),
     // check("userId").custom(userIdAlreadyExists),
     check("userId").isMongoId().withMessage("No es un ID de usuario válido"),
     check("userId").custom(roleIsValid).withMessage("No es un Role válido"),
     validateFields,
-  ],
+  ], */
   getSocialNetwork
 );
 

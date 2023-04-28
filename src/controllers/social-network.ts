@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { SocialNetwork } from "../models";
+import { getUserData } from "../helpers/jwt";
 
 export const getSocialNetworks = async (req: Request, res: Response) => {
   const { limit = 5, from = 0 } = req.query;
@@ -9,7 +10,9 @@ export const getSocialNetworks = async (req: Request, res: Response) => {
   try {
     const [total, socialNetworks] = await Promise.all([
       SocialNetwork.countDocuments(query),
-      SocialNetwork.find(query).skip(Number(from)).limit(Number(limit)),
+      SocialNetwork.find(query, { _id: 0, name: 1 })
+        .skip(Number(from))
+        .limit(Number(limit)),
     ]);
 
     return res.status(200).json({
@@ -53,6 +56,7 @@ export const createSocialNetwork = async (req: Request, res: Response) => {
   const name: string =
     req.body.name.charAt(0).toUpperCase() +
     req.body.name.slice(1).toLowerCase();
+  const { userId } = getUserData(req);
 
   try {
     const socialNetworkDB = await SocialNetwork.findOne({ name });
@@ -65,9 +69,10 @@ export const createSocialNetwork = async (req: Request, res: Response) => {
       });
     }
 
-    // Generar la data a guardar
+    //Generar la data a guardar
     const data = {
       name,
+      userId,
     };
 
     const socialNetwork = new SocialNetwork(data);
@@ -81,10 +86,10 @@ export const createSocialNetwork = async (req: Request, res: Response) => {
       result: socialNetwork,
     });
   } catch (error) {
-    return res.status(409).json({
+    return res.status(500).json({
       ok: false,
-      msg: `The social network ${name}, it already exists`,
-      result: {},
+      msg: "Please talk to the administrator",
+      result: { error },
     });
   }
 };
@@ -102,10 +107,10 @@ export const updateSocialNetwork = async (req: Request, res: Response) => {
       result: socialNetwork,
     });
   } catch (error) {
-    return res.status(409).json({
+    return res.status(500).json({
       ok: false,
-      msg: `The social network ${name}, it already exists`,
-      result: {},
+      msg: "Please talk to the administrator",
+      result: { error },
     });
   }
 };
@@ -126,10 +131,10 @@ export const deleteSocialNetwork = async (req: Request, res: Response) => {
       result: socialNetwork,
     });
   } catch (error) {
-    return res.status(409).json({
+    return res.status(500).json({
       ok: false,
-      msg: `The social network ${name}, it already exists`,
-      result: {},
+      msg: "Please talk to the administrator",
+      result: { error },
     });
   }
 };

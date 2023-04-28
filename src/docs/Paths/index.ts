@@ -5,7 +5,8 @@ import { snPostCR } from "./SNPosts/sn-post-CR";
 import { snPostUD } from "./SNPosts/sn-post-UD";
 import { socialNetworkCR } from "./Social-Network/socialNetwork-CR";
 import { socialNetworkUD } from "./Social-Network/socialNetwork-UD";
-import { socialNetworkR } from "./Social-Network/socialNetwork-R";
+import { roleCR } from "./Roles/role-CR";
+import { roleD } from "./Roles/role-D";
 
 export const paths = {
   paths: {
@@ -21,9 +22,6 @@ export const paths = {
     "/api/social-network": {
       ...socialNetworkCR,
     },
-    "/api/social-network/{id}/{userId}": {
-      ...socialNetworkR,
-    },
     "/api/social-network/{id}": {
       ...socialNetworkUD,
     },
@@ -33,11 +31,11 @@ export const paths = {
     "/api/smposts/{id}": {
       ...snPostUD,
     },
-
-    // '/todos/{id}':{
-    //     ...getTodo,
-    //     ...updateTodo,
-    //     ...deleteTodo
-    // }
+    "/api/roles": {
+      ...roleCR,
+    },
+    "/api/roles/{id}": {
+      ...roleD,
+    },
   },
 };

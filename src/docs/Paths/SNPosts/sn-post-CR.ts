@@ -45,13 +45,14 @@ export const snPostCR = {
               },
             },
             example: {
-              socialNetwork: "Facebook",
+              socialNetwork: "644b0665d078621d04319da7",
               message:
                 "Visita a Bohiques.com y encontraras la manera mas rapida de fortalecer tu marca.",
-              visualResources:
-                "['https://cloudinary.com/user/kkj;5467ggf4.jpeg', 'https://youtube.com/user/yygvtr565.png']",
-              postDate: "2021-02-25T10:03:46.000Z",
-              user: "507f1f77bcf86cd799439011",
+              visualResources: [
+                "https://youtube.com/user/yygvtr565.png",
+                "https://cloudinary.com/user/kkj;5467ggf4.jpeg",
+              ],
+              postDate: "2023-05-25T10:03:46.000Z",
             },
           },
         },

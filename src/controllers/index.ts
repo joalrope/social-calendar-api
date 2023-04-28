@@ -15,14 +15,6 @@ export {
 } from "./social-network";
 
 export {
-  getCategories,
-  getCategory,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-} from "./categories";
-
-export {
   fileUpload,
   updateImage,
   updateImageCloudinary,
@@ -30,5 +22,6 @@ export {
 } from "./uploads";
 
 export { searchUser, searchCategories, searchProducts } from "./search";
-export { getUsers, createUser, updateUser, deleteUser } from "./users";
+export { getUsers, getUser, createUser, updateUser, deleteUser } from "./users";
+export { getRoles, getRole, createRole, deleteRole } from "./roles";
 export { login } from "./auth";

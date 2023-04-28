@@ -1,4 +1,31 @@
 export const snPostUD = {
+  get: {
+    tags: ["Social Network Post"],
+    summary: "Get a social network post by id",
+    produce: ["application/json"],
+    parameters: [
+      {
+        name: "id",
+        in: "path",
+        type: "string",
+        format: "MongoDB Id",
+        required: true,
+      },
+    ],
+    responses: {
+      "200": {
+        description: "A Social Network Post object.",
+        content: {
+          // content-type
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/Response", // response model
+            },
+          },
+        },
+      },
+    },
+  },
   put: {
     tags: ["Social Network Post"],
     summary: "Social network Post data update.",
@@ -9,12 +36,19 @@ export const snPostUD = {
     ],
     parameters: [
       {
+        name: "id",
+        in: "path",
+        type: "string",
+        format: "MongoDB Id",
+        required: true,
+      },
+      {
         in: "body",
         name: "snposts",
-        description: "Create a new social network post.",
+        description: "Update a new social network post.",
         schema: {
           type: "object",
-          required: ["socialNetwork", "message", "postDate", "user"],
+          required: ["socialNetwork", "message", "postDate"],
           properties: {
             id: {
               $ref: "#/components/schemas/id",
@@ -31,18 +65,14 @@ export const snPostUD = {
             postDate: {
               type: "date",
             },
-            user: {
-              type: "ObjectId",
-            },
           },
           example: {
-            socialNetwork: "Facebook",
+            socialNetwork: "644b0665d078621d04319da7",
             message:
-              "Visita a Bohiques.com y encontraras la manera mas rapida de fortalecer tu marca.",
+              "Visita a Bohiques.com y encontraras la manera mas rapida de fortalecer tu marca. Y veras tus ingresos aumentar",
             visualResources:
-              "['https://cloudinary.com/user/kkj;5467ggf4.jpeg', 'https://youtube.com/user/yygvtr565.png']",
-            postDate: "2021-02-25T10:03:46.000Z",
-            user: "507f1f77bcf86cd799439011",
+              "['https://cloudinary.com/user/kkj;5467ggf4.jpeg']",
+            postDate: "2023-05-25T10:03:40.000Z",
           },
         },
       },
@@ -63,7 +93,15 @@ export const snPostUD = {
     ],
     description: "Get sn-posts", // operation's desc.
     operationId: "getSNPosts", // unique operation id.
-    parameters: [], // expected params.
+    parameters: [
+      {
+        name: "id",
+        in: "path",
+        type: "string",
+        format: "MongoDB Id",
+        required: true,
+      },
+    ], // expected params.
     // expected responses
     responses: {
       // response code

@@ -25,7 +25,7 @@ export const login = {
             },
             example: {
               email: "contact@bohiques.com",
-              password: "bo.-hi2023",
+              password: "Bo.-hi2023",
             },
           },
         },

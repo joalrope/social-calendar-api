@@ -1,11 +1,8 @@
 import { Router } from "express";
-import { check } from "express-validator";
+import { body, check } from "express-validator";
 
-import { validateJWT, validateFields, isAdminRole } from "../middlewares";
-import {
-  isDate,
-  isAfter
-} from "../helpers";
+import { validateJWT, validateFields } from "../middlewares";
+import { isDate, isAfter } from "../helpers";
 import {
   createSNPost,
   getSNPosts,
@@ -39,17 +36,17 @@ snPostRouter.post(
   "/",
   [
     validateJWT,
-    check("socialMedia", "La red social es obligatoria").notEmpty(),
-    check("postDate", "La fecha de publicación es obligatoria").notEmpty(),
-    check(
+    body("socialNetwork", "La red social es obligatoria").notEmpty(),
+    body("postDate", "La fecha de publicación es obligatoria").notEmpty(),
+    body(
       "postDate",
       "La fecha de publicación debe ser una fecha valida"
     ).custom(isDate),
-    check(
+    body(
       "postDate",
       "La fecha de publicacion deber ser posterior al momento actual"
     ).custom(isAfter),
-    check(
+    body(
       "message",
       "El mensaje de la publicacion No puede estar vacio"
     ).notEmpty(),
@@ -64,8 +61,7 @@ snPostRouter.put(
   "/:id",
   [
     validateJWT,
-    check('categoria','No es un id de Mongo').isMongoId(),
-    // check("id").custom(productIdAlreadyExists),
+    check("id", "No es un id de Mongo válido").isMongoId(),
     validateFields,
   ],
   updateSNPost
@@ -76,7 +72,7 @@ snPostRouter.delete(
   "/:id",
   [
     validateJWT,
-    isAdminRole,
+    //isAdminRole,
     check("id", "No es un id de Mongo válido").isMongoId(),
     //check("id").custom(productIdAlreadyExists),
     validateFields,

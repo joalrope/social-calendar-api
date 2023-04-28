@@ -15,6 +15,9 @@ export const tags = {
     {
       name: "Social Network Post",
     },
+    {
+      name: "Roles",
+    },
     ,
   ],
 };

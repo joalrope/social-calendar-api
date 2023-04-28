@@ -2,11 +2,6 @@ export const userUD = {
   get: {
     tags: ["Users"],
     summary: "Get a user data by id",
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
     produce: ["application/json"],
     parameters: [
       {
@@ -49,6 +44,37 @@ export const userUD = {
         required: true,
       },
     ],
+    name: "user",
+    in: "body",
+    requestBody: {
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["name", "email", "password"],
+            properties: {
+              name: {
+                type: "string",
+                description: "The user's name",
+              },
+              picture: {
+                type: "string",
+                description: "The user's avatar",
+              },
+              role: {
+                type: "string",
+                description: "The user's role",
+              },
+            },
+            example: {
+              name: "Bohiques Contact",
+              picture: "https://cloudinary.com/45lok999ugt55f4.png",
+              role: "USER_ROLE",
+            },
+          },
+        },
+      },
+    },
     responses: {
       "200": {
         description: "A user object.",

@@ -3,7 +3,7 @@ import { v2 } from "cloudinary";
 import path from "path";
 import fs from "fs";
 import { uploadFiles } from "../helpers";
-import { User, SMPost } from "../models";
+import { User, SNPost } from "../models";
 
 const cloudinary = v2;
 cloudinary.config(String(process.env.CLOUDINARY_URL));
@@ -13,7 +13,11 @@ export const fileUpload = async (req: Request, res: Response) => {
     // txt, md
     // const nombre = await subirArchivo( req.files, ['txt','md'], 'textos' );
     const name = await uploadFiles(req.files, undefined, "imgs");
-    res.json({ name });
+    res.json({
+      ok: true,
+      msg: "The image was upload",
+      result: { name },
+    });
   } catch (error) {
     res.status(400).json({
       ok: false,
@@ -40,7 +44,7 @@ export const updateImage = async (req: Request, res: Response) => {
       break;
 
     case "sm-posts":
-      model = await SMPost.findById(id);
+      model = await SNPost.findById(id);
       if (!model) {
         return res.status(400).json({
           ok: false,
@@ -93,7 +97,7 @@ export const updateImageCloudinary = async (req: Request, res: Response) => {
       break;
 
     case "sm-posts":
-      model = await SMPost.findById(id);
+      model = await SNPost.findById(id);
       if (!model) {
         return res.status(400).json({
           msg: `There is no social network posts with the id ${id}`,
@@ -140,7 +144,7 @@ export const showImage = async (req: Request, res: Response) => {
       break;
 
     case "products":
-      model = await SMPost.findById(id);
+      model = await SNPost.findById(id);
       if (!model) {
         return res.status(400).json({
           msg: `There is no product with the id ${id}`,

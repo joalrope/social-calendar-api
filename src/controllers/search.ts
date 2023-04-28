@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 const { ObjectId } = Types;
 const { User, Category, Product } = require("../models");
 
-const collectionsAllowed = ["usuarios", "categorias", "productos", "roles"];
+const collectionsAllowed = ["usuarios", "roles"];
 
 export const searchUser = async (termino = "", res: Response) => {
   const isMongoID = ObjectId.isValid(termino); // TRUE
@@ -128,8 +128,10 @@ export const search = (req: Request, res: Response) => {
       break;
 
     default:
-      res.status(500).json({
-        msg: "Se le olvido hacer esta búsqueda",
+      res.status(409).json({
+        ok: false,
+        msg: "Bad request",
+        result: {},
       });
   }
   return;
