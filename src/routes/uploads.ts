@@ -1,10 +1,8 @@
 import { Router } from "express";
 
-import { validateFileToUpload } from "../middlewares";
-import { fileUpload  } from "../controllers";
+import { validateFileToUpload, validateJWT } from "../middlewares";
+import { fileUpload } from "../controllers";
 
 export const uploadRouter = Router();
 
-uploadRouter.post("/", validateFileToUpload, fileUpload);
-
-
+uploadRouter.post("/", [validateJWT, validateFileToUpload], fileUpload);

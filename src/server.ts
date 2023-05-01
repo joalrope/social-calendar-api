@@ -6,6 +6,7 @@ import swaggerUI from "swagger-ui-express";
 import { options } from "./docs/index";
 import fileUpload from "express-fileupload";
 import { apiRoutes } from "./routes";
+import { schedule } from "./helpers/cron";
 
 export class Server {
   app: Express;
@@ -24,6 +25,8 @@ export class Server {
 
     // Rutas de mi aplicación
     this.routes = apiRoutes(this.app);
+
+    this.startTask();
   }
 
   async conectarDB() {
@@ -34,16 +37,16 @@ export class Server {
     // CORS
     this.app.use(cors());
 
-    // Lectura y parseo del body
+    // Reading and parsing the body
     this.app.use(express.json());
 
     // Swagger integration
     this.app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(options));
 
-    // Directorio Público
+    // Public Directory
     this.app.use(express.static("public"));
 
-    // Fileupload - Carga de archivos
+    // File upload
     this.app.use(
       fileUpload({
         useTempFiles: true,
@@ -51,6 +54,10 @@ export class Server {
         createParentPath: true,
       })
     );
+  }
+
+  startTask() {
+    schedule();
   }
 
   listen() {

@@ -18,6 +18,8 @@ export const tags = {
     {
       name: "Roles",
     },
-    ,
+    {
+      name: "Upload",
+    },
   ],
 };

@@ -7,6 +7,7 @@ import { socialNetworkCR } from "./Social-Network/socialNetwork-CR";
 import { socialNetworkUD } from "./Social-Network/socialNetwork-UD";
 import { roleCR } from "./Roles/role-CR";
 import { roleD } from "./Roles/role-D";
+import { upload } from "./uploads/upload";
 
 export const paths = {
   paths: {
@@ -36,6 +37,9 @@ export const paths = {
     },
     "/api/roles/{id}": {
       ...roleD,
+    },
+    "/api/uploads": {
+      ...upload,
     },
   },
 };

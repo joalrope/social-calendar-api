@@ -4,6 +4,7 @@ import path from "path";
 import fs from "fs";
 import { uploadFiles } from "../helpers";
 import { User, SNPost } from "../models";
+import { getUserData } from "../helpers/jwt";
 
 const cloudinary = v2;
 cloudinary.config(String(process.env.CLOUDINARY_URL));
@@ -12,7 +13,9 @@ export const fileUpload = async (req: Request, res: Response) => {
   try {
     // txt, md
     // const nombre = await subirArchivo( req.files, ['txt','md'], 'textos' );
-    const name = await uploadFiles(req.files, undefined, "imgs");
+    const { userId } = getUserData(req);
+    const name = await uploadFiles(req.files, userId);
+
     res.json({
       ok: true,
       msg: "The image was upload",
@@ -72,7 +75,7 @@ export const updateImage = async (req: Request, res: Response) => {
     }
   }
 
-  const name = await uploadFiles(req.files, undefined, colection);
+  const name = await uploadFiles(req.files, colection);
   model.img = name;
 
   await model.save();
