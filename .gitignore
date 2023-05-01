@@ -4,5 +4,4 @@ node_modules/
 
 .env
 
-uploads/smposts/**.*
-uploads/users/**.*
+uploads/
