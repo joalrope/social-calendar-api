@@ -1,14 +1,14 @@
 import { Schema, model } from "mongoose";
 
-interface ISNPost {
+export interface ISNPost {
   id: Schema.Types.ObjectId;
-  hash: String;
+  hash: string;
   socialNetwork: Schema.Types.ObjectId;
   message: string;
-  visualResources: [String];
+  visualResources: [string];
   postDate: Date;
   isPostMade: boolean;
-  user: Schema.Types.ObjectId;
+  userId: Schema.Types.ObjectId;
   isActive: boolean;
 }
 

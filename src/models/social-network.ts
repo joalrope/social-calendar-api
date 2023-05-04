@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-interface ISocialNetwork {
+export interface ISocialNetwork {
   id: Schema.Types.ObjectId;
   name: String;
   isActive: boolean;

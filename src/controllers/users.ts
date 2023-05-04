@@ -26,7 +26,7 @@ export const getUsers = async (req: Request, res: Response) => {
     return res.status(500).json({
       ok: false,
       msg: "Please talk to the administrator",
-      result: {},
+      result: { error },
     });
   }
 };
@@ -60,7 +60,7 @@ export const getUser = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-  const { name, email, password, picture, role } = req.body;
+  const { email, password, ...restData } = req.body;
 
   try {
     let userDB = await User.findOne({ email });
@@ -73,7 +73,7 @@ export const createUser = async (req: Request, res: Response) => {
       });
     }
 
-    const user = new User({ name, email, password, picture, role });
+    const user = new User({ email, password, ...restData });
 
     // Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
@@ -89,15 +89,15 @@ export const createUser = async (req: Request, res: Response) => {
       ok: true,
       msg: "User created successfully",
       result: {
-        user,
         token,
+        user,
       },
     });
   } catch (error) {
     return res.status(500).json({
       ok: false,
       msg: "Please talk to the administrator",
-      result: {},
+      result: { error },
     });
   }
 };
@@ -124,7 +124,7 @@ export const updateUser = async (req: Request, res: Response) => {
     return res.status(500).json({
       ok: false,
       msg: "Please talk to the administrator",
-      result: {},
+      result: { error },
     });
   }
 };
@@ -148,7 +148,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res.status(500).json({
       ok: false,
       msg: "Please talk to the administrator",
-      result: {},
+      result: { error },
     });
   }
 };

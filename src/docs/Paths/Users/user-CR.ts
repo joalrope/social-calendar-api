@@ -42,6 +42,16 @@ export const userCR = {
               email: "contact@bohiques.com",
               password: "Bo.-hi2023",
               picture: "https://cloudinary.com/45lok999ugt55f4.png",
+              socialNetworks: [
+                {
+                  snId: "644b0665d078621d04319da7",
+                  credential: "a34d5523900ca34ddssxx56fcd",
+                },
+                {
+                  snId: "644b06ccd078621d04319dab",
+                  credential: "acd8-hh65-34cd-45ca-000a",
+                },
+              ],
               role: "USER_ROLE",
             },
           },
