@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 export interface ISocialNetwork {
   id: Schema.Types.ObjectId;
-  name: String;
+  name: string;
   isActive: boolean;
   userId: Schema.Types.ObjectId;
 }
